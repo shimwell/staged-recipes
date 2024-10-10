@@ -1,0 +1,48 @@
+{% set name = "paramak" %}
+{% set version = "0.9.4" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/paramak-{{ version }}.tar.gz
+  sha256: 519bcda4efbb884bf920c43ead5051818cd9723c5a115eaaddc681c7a92bfa5c
+
+build:
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 0
+
+requirements:
+  host:
+    - python >=3.9
+    - setuptools >=69.5.1
+    - setuptools-scm >=8.1.0
+    - pip
+  run:
+    - python >=3.9
+    - cadquery
+    - numpy <=1.23.5
+    - mpmath
+    - sympy
+    - scipy
+
+test:
+  imports:
+    - paramak
+  commands:
+    - pip check
+    - pytest -vv
+  requires:
+    - pip
+    - pytest
+
+about:
+  summary: Create 3D fusion reactor CAD models based on input parameters
+  license: MIT
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+    - shimwell
